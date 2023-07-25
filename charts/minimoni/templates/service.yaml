@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "minimoni.fullname" . }}
+  labels:
+    {{- include "minimoni.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.core.service.type }}
+  ports:
+    - port: {{ .Values.core.service.port }}
+      protocol: TCP
+      name: minimonissh
+      nodePort: {{ .Values.core.service.port }}
+  selector:
+    {{- include "minimoni.selectorLabels" . | nindent 4 }}

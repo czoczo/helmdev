@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "minimoni.fullname" . }}-test-connection"
+  labels:
+    {{- include "minimoni.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['-p', '{{ .Values.core.service.port }}','{{ include "minimoni.fullname" . }}']
+  restartPolicy: Never
